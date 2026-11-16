@@ -25,11 +25,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* REGハズレ確定チェック時のボックス演出 */
-@keyframes reg-miss-alert {
+/* 確定要素スイッチ（ConfirmToggle）をONにした時のボックス演出 */
+@keyframes confirm-alert {
   0% {
     border-color: rgba(255, 255, 255, 0.15);
-    background-color: rgba(15, 23, 42, 0.4);
+    background-color: rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 0 0 rgba(229, 57, 53, 0);
   }
   35% {
@@ -44,19 +44,19 @@ body {
   }
 }
 
-.reg-miss-box {
+.confirm-box {
   transition:
     border-color 0.55s ease,
     background-color 0.55s ease,
     box-shadow 0.55s ease;
 }
 
-.reg-miss-box--checked {
+.confirm-box--checked {
   border-color: #e53935;
   background-color: rgba(229, 57, 53, 0.24);
   box-shadow: 0 0 0 1px rgba(229, 57, 53, 0.35);
 }
 
-.reg-miss-box--animate-in {
-  animation: reg-miss-alert 0.6s ease-out forwards;
+.confirm-box--animate-in {
+  animation: confirm-alert 0.6s ease-out forwards;
 }
