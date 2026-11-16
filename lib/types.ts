@@ -16,6 +16,8 @@ export type MachineEntry = {
   slug: string;
   /** 表示名（例: "スマスロ ハナビ"） */
   name: string;
+  /** 判別対象の設定（例: [1, 2, 5, 6]）。機種選択画面に表示する */
+  settings: readonly number[];
   theme: MachineTheme;
   /** 機種ページの画面本体 */
   Screen: ComponentType;

@@ -5,6 +5,7 @@ import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { ConfirmToggle } from "@/components/ConfirmToggle";
 import { CounterInput } from "@/components/CounterInput";
 import { HybridInput } from "@/components/HybridInput";
+import { BackToList } from "@/components/BackToList";
 import { ResultPanel } from "@/components/ResultPanel";
 import { calculateRate, judgeSettings } from "@/lib/judge";
 import { themeStyle } from "@/lib/theme";
@@ -96,6 +97,7 @@ export function HanabiScreen() {
   return (
     <main className="min-h-screen bg-neutral-100 p-6" style={themeStyle(hanabiTheme)}>
       <div className="max-w-md mx-auto bg-blue-950 text-white rounded-xl shadow p-6">
+        <BackToList />
         <h1 className="text-white font-bold mb-6 text-center">
           <span className="block text-3xl">スマスロ ハナビ</span>
           <span className="block text-2xl mt-1 text-[var(--sub)]">設定判別ツール</span>
