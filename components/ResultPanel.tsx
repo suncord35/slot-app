@@ -7,12 +7,14 @@ export type RateLine = {
   rate: string | null;
   /** 確率の後ろに付ける補足（例: "(160G)"） */
   suffix?: string;
+  /** 確率ではなく、この文字をそのまま表示する（例: 女性 12 / 男性 8） */
+  text?: string;
 };
 
 /** 判定結果（もっとも可能性が高い設定・設定推測配分・実測確率） */
 export function ResultPanel({ judge, rateLines }: { judge: JudgeResult; rateLines: RateLine[] }) {
   const { results, closest, contradiction } = judge;
-  const visibleLines = rateLines.filter((line) => line.rate);
+  const visibleLines = rateLines.filter((line) => line.rate || line.text);
 
   return (
     <div className="mt-6 border-t border-white/20 pt-4">
@@ -52,7 +54,7 @@ export function ResultPanel({ judge, rateLines }: { judge: JudgeResult; rateLine
           <div className="rounded-lg border border-white/10 bg-black/30 p-4 space-y-1 text-sm font-semibold text-white/90">
             {visibleLines.map((line) => (
               <p key={line.label}>
-                {line.label}：{line.rate === "∞" ? "0回" : `1/${line.rate}`}
+                {line.label}：{line.text ?? (line.rate === "∞" ? "0回" : `1/${line.rate}`)}
                 {line.suffix ? ` ${line.suffix}` : ""}
               </p>
             ))}
