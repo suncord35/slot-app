@@ -30,7 +30,7 @@ export function ConfirmToggle({
 
   return (
     <label
-      className={`confirm-box flex items-center gap-3 border p-4 rounded-lg cursor-pointer select-none bg-slate-950/40 border-white/10 ${checked ? "confirm-box--checked" : ""} ${animating ? "confirm-box--animate-in" : ""}`}
+      className={`confirm-box flex items-center gap-3 border p-4 rounded-lg cursor-pointer select-none bg-black/30 border-white/10 ${checked ? "confirm-box--checked" : ""} ${animating ? "confirm-box--animate-in" : ""}`}
     >
       <input type="checkbox" checked={checked} onChange={handleChange} className="w-6 h-6 rounded accent-[#E53935]" />
       <div className="flex flex-col">

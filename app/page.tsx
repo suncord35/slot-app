@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SavedBadge } from "@/components/SavedBadge";
 import { machines } from "@/machines";
 
 /** トップページ：機種選択画面 */
@@ -26,6 +27,7 @@ export default function Home() {
                   <span className="mt-1 text-sm font-semibold" style={{ color: machine.theme.sub }}>
                     設定 {machine.settings.join("・")} を判別
                   </span>
+                  <SavedBadge slug={machine.slug} />
                 </span>
                 <span className="text-3xl font-bold" style={{ color: machine.theme.accent }} aria-hidden="true">
                   ›

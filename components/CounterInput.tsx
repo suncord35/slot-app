@@ -7,7 +7,7 @@ export function CounterInput({
   label,
   value,
   setValue,
-  labelClassName = "text-neutral-700",
+  labelClassName = "text-white",
 }: {
   label: string;
   value: string;
@@ -27,9 +27,10 @@ export function CounterInput({
         </button>
         <input
           type="number"
+          inputMode="numeric"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          className="w-32 border rounded-lg p-3 text-center text-2xl font-bold"
+          className="w-32 rounded-lg border border-white/20 bg-black/30 p-3 text-center text-2xl font-bold text-white placeholder:text-white/30"
           placeholder="0"
         />
         <button

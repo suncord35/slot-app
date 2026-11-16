@@ -49,7 +49,7 @@ export function HybridInput({
             const typed = e.target.value === "" ? 0 : Math.max(0, Number(e.target.value) || 0);
             setAdjust(typed - autoValue);
           }}
-          className="min-w-0 flex-1 border rounded-lg p-2 text-center text-xl font-bold"
+          className="min-w-0 flex-1 rounded-lg border border-white/20 bg-black/30 p-2 text-center text-xl font-bold text-white placeholder:text-white/30"
           placeholder="0"
         />
         <button

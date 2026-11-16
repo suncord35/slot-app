@@ -16,7 +16,7 @@ export function CollapsibleSection({
   const panelId = `panel-${title.replace(/\s/g, "-")}`;
 
   return (
-    <section className="border-t pt-4 mt-4">
+    <section className="border-t border-white/20 pt-4 mt-4">
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
