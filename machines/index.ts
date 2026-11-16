@@ -5,6 +5,8 @@ import { KabaneriScreen } from "./kabaneri/KabaneriScreen";
 import { KABANERI_SETTINGS, kabaneriTheme } from "./kabaneri/data";
 import { TokyoghoulScreen } from "./tokyoghoul/TokyoghoulScreen";
 import { TOKYOGHOUL_SETTINGS, tokyoghoulTheme } from "./tokyoghoul/data";
+import { MhsunbreakScreen } from "./mhsunbreak/MhsunbreakScreen";
+import { MHSUNBREAK_SETTINGS, mhsunbreakTheme } from "./mhsunbreak/data";
 import { MyJuggler6Screen, NeoImJugglerScreen } from "./juggler/JugglerScreen";
 import { JUGGLER_SETTINGS, myJuggler6, neoImJuggler } from "./juggler/data";
 
@@ -38,6 +40,15 @@ export const machines: MachineEntry[] = [
     settings: TOKYOGHOUL_SETTINGS,
     theme: tokyoghoulTheme,
     Screen: TokyoghoulScreen,
+  },
+  {
+    slug: "mhsunbreak",
+    name: "モンハン ライズ：サンブレイク",
+    category: "at",
+    keywords: ["もんはん", "モンスターハンター", "さんぶれいく", "サンブレ", "ライズ", "mh", "monster hunter"],
+    settings: MHSUNBREAK_SETTINGS,
+    theme: mhsunbreakTheme,
+    Screen: MhsunbreakScreen,
   },
   {
     slug: neoImJuggler.slug,
