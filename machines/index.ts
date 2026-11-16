@@ -15,6 +15,8 @@ export const machines: MachineEntry[] = [
   {
     slug: "hanabi",
     name: "スマスロ ハナビ",
+    category: "normal",
+    keywords: ["はなび", "花火", "hanabi", "アクロス"],
     settings: HANABI_SETTINGS,
     theme: hanabiTheme,
     Screen: HanabiScreen,
@@ -22,6 +24,8 @@ export const machines: MachineEntry[] = [
   {
     slug: "kabaneri",
     name: "スマスロ カバネリ 海門決戦",
+    category: "at",
+    keywords: ["かばねり", "甲鉄城", "うなと", "kabaneri", "サミー"],
     settings: KABANERI_SETTINGS,
     theme: kabaneriTheme,
     Screen: KabaneriScreen,
@@ -29,6 +33,8 @@ export const machines: MachineEntry[] = [
   {
     slug: "tokyoghoul",
     name: "L 東京喰種",
+    category: "at",
+    keywords: ["とうきょうぐーる", "グール", "ぐーる", "tokyo ghoul"],
     settings: TOKYOGHOUL_SETTINGS,
     theme: tokyoghoulTheme,
     Screen: TokyoghoulScreen,
@@ -36,6 +42,8 @@ export const machines: MachineEntry[] = [
   {
     slug: neoImJuggler.slug,
     name: neoImJuggler.name,
+    category: "normal",
+    keywords: ["じゃぐらー", "あいむ", "ねおあいむ", "アイジャグ", "juggler"],
     settings: JUGGLER_SETTINGS,
     theme: neoImJuggler.theme,
     Screen: NeoImJugglerScreen,
@@ -43,6 +51,8 @@ export const machines: MachineEntry[] = [
   {
     slug: myJuggler6.slug,
     name: myJuggler6.name,
+    category: "normal",
+    keywords: ["じゃぐらー", "まいじゃぐ", "マイジャグ", "マイジャグ6", "マイジャグラー6", "juggler"],
     settings: JUGGLER_SETTINGS,
     theme: myJuggler6.theme,
     Screen: MyJuggler6Screen,
