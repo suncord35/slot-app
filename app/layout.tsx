@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -18,6 +18,18 @@ export const metadata: Metadata = {
     template: "%s | パチスロ設定判別ツール",
   },
   description: "ホールで片手でカウントできるパチスロ設定判別ツール",
+  // ホーム画面に追加したときのアプリ名（Android は app/manifest.ts、iPhone はここ）
+  applicationName: "設定推測",
+  appleWebApp: {
+    capable: true,
+    title: "設定推測",
+    statusBarStyle: "black",
+  },
+};
+
+/** スマホのブラウザ上部の色（アプリの背景と同じ色） */
+export const viewport: Viewport = {
+  themeColor: "#020617",
 };
 
 export default function RootLayout({
