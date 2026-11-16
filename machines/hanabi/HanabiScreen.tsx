@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CollapsibleSection } from "@/components/CollapsibleSection";
 import { ConfirmToggle } from "@/components/ConfirmToggle";
 import { CounterInput } from "@/components/CounterInput";
 import { HybridInput } from "@/components/HybridInput";
 import { BackToList } from "@/components/BackToList";
 import { ResultPanel } from "@/components/ResultPanel";
-import { calculateRate, judgeSettings } from "@/lib/judge";
+import { calculateRate, judgeSettings, type CountElement } from "@/lib/judge";
 import { themeStyle } from "@/lib/theme";
 import {
   BB_GAMES_PER_BIG,
@@ -32,7 +32,7 @@ export function HanabiScreen() {
   const [hgMissCount, setHgMissCount] = useState("");
 
   // BIG中
-  const [bbGames, setBbGames] = useState(""); // BB中の総ゲーム数
+  const [bbGamesAdjust, setBbGamesAdjust] = useState(0); // BB中ゲーム数の補正（目押しミス分）
   const [bbBellACount, setBbBellACount] = useState("");
   const [bbBellBCount, setBbBellBCount] = useState("");
   const [bbChanceCount, setBbChanceCount] = useState("");
@@ -40,15 +40,9 @@ export function HanabiScreen() {
   // 確定フラグ（REG中ハズレ）
   const [hasRbMiss, setHasRbMiss] = useState(false);
 
-  // BIG回数が変わったら、BB中総ゲーム数を「BIG回数 × 29G」で更新する
-  // ※手順3で「自動値＋補正」の形に直す予定
-  useEffect(() => {
-    if (Number(bbCount) > 0) {
-      setBbGames(String(Number(bbCount) * BB_GAMES_PER_BIG));
-    } else {
-      setBbGames("");
-    }
-  }, [bbCount]);
+  // BB中の総ゲーム数 = BIG回数 × 29G ＋ 補正
+  const bbGamesAuto = Number(bbCount) > 0 ? Number(bbCount) * BB_GAMES_PER_BIG : 0;
+  const bbGamesNum = Math.max(0, bbGamesAuto + bbGamesAdjust);
 
   // 花火GAMEのゲーム数（BIG回数 × 20G）
   const calculatedHgGames = Number(bbCount) > 0 ? Number(bbCount) * HG_GAMES_PER_BIG : 0;
@@ -65,34 +59,33 @@ export function HanabiScreen() {
   const cherryBRate = calculateRate(totalGamesNum, cherryBCount);
   const hgMissRate = calculateRate(calculatedHgGames, hgMissCount);
 
-  const bbGamesNum = Number(bbGames);
   const bbBellARate = calculateRate(bbGamesNum, bbBellACount);
   const bbBellBRate = calculateRate(bbGamesNum, bbBellBCount);
   const bbChanceRate = calculateRate(bbGamesNum, bbChanceCount);
 
   // --- 総合判定 ---
+  const elements: CountElement[] = [
+    { games: totalGamesNum, count: bbCount, rates: hanabiRates.bb },
+    { games: totalGamesNum, count: rbCount, rates: hanabiRates.rb },
+    { games: totalGamesNum, count: bellACount, rates: hanabiRates.bellA },
+    { games: totalGamesNum, count: bellBCount, rates: hanabiRates.bellB },
+    { games: totalGamesNum, count: iceACount, rates: hanabiRates.iceA },
+    { games: totalGamesNum, count: cherryA1Count, rates: hanabiRates.cherryA1 },
+    { games: totalGamesNum, count: cherryA2Count, rates: hanabiRates.cherryA2 },
+    { games: totalGamesNum, count: cherryBCount, rates: hanabiRates.cherryB },
+    { games: calculatedHgGames, count: hgMissCount, rates: hanabiRates.hgMiss },
+    { games: bbGamesNum, count: bbBellACount, rates: hanabiRates.bbBellA },
+    { games: bbGamesNum, count: bbBellBCount, rates: hanabiRates.bbBellB },
+    { games: bbGamesNum, count: bbChanceCount, rates: hanabiRates.bbChance },
+  ];
+
   const judge = judgeSettings({
     settings: HANABI_SETTINGS,
-    elements: [
-      { actualRate: bbRate, rates: hanabiRates.bb },
-      { actualRate: rbRate, rates: hanabiRates.rb },
-      { actualRate: bellARate, rates: hanabiRates.bellA },
-      { actualRate: bellBRate, rates: hanabiRates.bellB },
-      { actualRate: iceARate, rates: hanabiRates.iceA },
-      { actualRate: cherryA1Rate, rates: hanabiRates.cherryA1 },
-      { actualRate: cherryA2Rate, rates: hanabiRates.cherryA2 },
-      { actualRate: cherryBRate, rates: hanabiRates.cherryB },
-      { actualRate: hgMissRate, rates: hanabiRates.hgMiss },
-      { actualRate: bbBellARate, rates: hanabiRates.bbBellA },
-      { actualRate: bbBellBRate, rates: hanabiRates.bbBellB },
-      { actualRate: bbChanceRate, rates: hanabiRates.bbChance },
-    ],
+    elements,
     deniedSettings: hasRbMiss ? RB_MISS_DENIES : [],
   });
 
-  const hasAnyInput =
-    bbRate || rbRate || bellARate || bellBRate || iceARate || cherryA1Rate || cherryA2Rate || cherryBRate || hgMissRate ||
-    bbBellARate || bbBellBRate || bbChanceRate;
+  const hasAnyInput = judge.usedElements > 0 || hasRbMiss;
 
   return (
     <main className="min-h-screen bg-neutral-100 p-6" style={themeStyle(hanabiTheme)}>
@@ -137,9 +130,11 @@ export function HanabiScreen() {
           <div className="bg-slate-950/40 p-4 rounded-lg border border-white/10">
             <HybridInput
               label="BB中 総ゲーム数"
-              value={bbGames}
-              setValue={setBbGames}
-              note="※BIG回数から自動で「×29G」を入れています。目押しをミスしてゲーム数が増えた場合のみ直接書き換えてください。"
+              autoValue={bbGamesAuto}
+              adjust={bbGamesAdjust}
+              setAdjust={setBbGamesAdjust}
+              autoLabel={`BIG回数×${BB_GAMES_PER_BIG}G`}
+              note="※目押しをミスしてゲーム数が増えた時だけ ＋ で足してください。BIGが増えても足した分は残ります。"
             />
             <CounterInput label="斜め風鈴 (風鈴B)" value={bbBellBCount} setValue={setBbBellBCount} labelClassName="text-white" />
             <CounterInput label="平行風鈴 (風鈴A)" value={bbBellACount} setValue={setBbBellACount} labelClassName="text-white" />
@@ -183,6 +178,9 @@ export function HanabiScreen() {
               { label: "チェリーA2", rate: cherryA2Rate },
               { label: "チェリーB", rate: cherryBRate },
               { label: "HGハズレ", rate: hgMissRate, suffix: `(${calculatedHgGames}G)` },
+              { label: "BB中 平行風鈴", rate: bbBellARate, suffix: `(${bbGamesNum}G)` },
+              { label: "BB中 斜め風鈴", rate: bbBellBRate, suffix: `(${bbGamesNum}G)` },
+              { label: "BB中 バラケ目", rate: bbChanceRate, suffix: `(${bbGamesNum}G)` },
             ]}
           />
         )}

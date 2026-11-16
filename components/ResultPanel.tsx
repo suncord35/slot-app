@@ -11,11 +11,16 @@ export type RateLine = {
 
 /** 判定結果（もっとも近い設定・設定推測配分・実測確率） */
 export function ResultPanel({ judge, rateLines }: { judge: JudgeResult; rateLines: RateLine[] }) {
-  const { results, closest, combinedTotal } = judge;
+  const { results, closest, contradiction } = judge;
 
   return (
     <div className="mt-6 border-t pt-4">
-      {closest && combinedTotal > 0 && (
+      {contradiction && (
+        <div className="bg-red-600 text-white rounded-lg p-4 mb-4 text-center font-bold">
+          確定要素の組み合わせが矛盾しています。スイッチを見直してください。
+        </div>
+      )}
+      {closest && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4 text-center">
           <p className="text-sm text-blue-900 font-medium">現在もっとも近いのは</p>
           <p className="text-3xl font-black text-blue-900 mt-1">設定 {closest.setting}</p>
@@ -40,7 +45,7 @@ export function ResultPanel({ judge, rateLines }: { judge: JudgeResult; rateLine
           (line) =>
             line.rate && (
               <p key={line.label}>
-                {line.label}：1/{line.rate}
+                {line.label}：{line.rate === "∞" ? "0回" : `1/${line.rate}`}
                 {line.suffix ? ` ${line.suffix}` : ""}
               </p>
             ),
