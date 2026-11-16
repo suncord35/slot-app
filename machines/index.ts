@@ -5,6 +5,8 @@ import { KabaneriScreen } from "./kabaneri/KabaneriScreen";
 import { KABANERI_SETTINGS, kabaneriTheme } from "./kabaneri/data";
 import { TokyoghoulScreen } from "./tokyoghoul/TokyoghoulScreen";
 import { TOKYOGHOUL_SETTINGS, tokyoghoulTheme } from "./tokyoghoul/data";
+import { MyJuggler6Screen, NeoImJugglerScreen } from "./juggler/JugglerScreen";
+import { JUGGLER_SETTINGS, myJuggler6, neoImJuggler } from "./juggler/data";
 
 /**
  * 機種一覧。新機種はここに1件足す（トップの並び順もこの順番）。
@@ -30,6 +32,20 @@ export const machines: MachineEntry[] = [
     settings: TOKYOGHOUL_SETTINGS,
     theme: tokyoghoulTheme,
     Screen: TokyoghoulScreen,
+  },
+  {
+    slug: neoImJuggler.slug,
+    name: neoImJuggler.name,
+    settings: JUGGLER_SETTINGS,
+    theme: neoImJuggler.theme,
+    Screen: NeoImJugglerScreen,
+  },
+  {
+    slug: myJuggler6.slug,
+    name: myJuggler6.name,
+    settings: JUGGLER_SETTINGS,
+    theme: myJuggler6.theme,
+    Screen: MyJuggler6Screen,
   },
 ];
 
